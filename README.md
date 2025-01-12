@@ -39,6 +39,8 @@ client-server-api-go/
 │   └── server.go # Código do servidor
 ├── go.mod # Gerenciamento de dependências
 ├── go.sum # Lockfile das dependências
+├── cotacao.txt # Arquivo de saída com a cotação do dólar
+├── quotes.db # Banco de dados SQLite
 └── README.md # Documentação do projeto
 
 ```
