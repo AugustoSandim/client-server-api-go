@@ -34,13 +34,13 @@ func main() {
 func getDollarQuote(ctx context.Context) (*DollarQuote, error) {
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "http://localhost:8080/cotacao", nil)
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
 	defer resp.Body.Close()
 
@@ -50,7 +50,7 @@ func getDollarQuote(ctx context.Context) (*DollarQuote, error) {
 
 	var quote DollarQuote
 	if err := json.NewDecoder(resp.Body).Decode(&quote); err != nil {
-		return nil, err
+		panic(err)
 	}
 
 	return &quote, nil

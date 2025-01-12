@@ -56,19 +56,19 @@ func main() {
 func fetchDollarQuote(ctx context.Context) (*DollarQuote, error) {
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "https://economia.awesomeapi.com.br/json/last/USD-BRL", nil)
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
 	defer resp.Body.Close()
 
 	var result map[string]map[string]string
 	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
-		return nil, err
+		panic(err)
 	}
 
 	return &DollarQuote{Bid: result["USDBRL"]["bid"]}, nil
@@ -78,10 +78,10 @@ func saveQuote(ctx context.Context, db *sql.DB, quote *DollarQuote) error {
 	query := `INSERT INTO quotes (bid) VALUES (?)`
 	stmt, err := db.PrepareContext(ctx, query)
 	if err != nil {
-		return err
+		panic(err)
 	}
 	defer stmt.Close()
 
 	_, err = stmt.ExecContext(ctx, quote.Bid)
-	return err
+	panic(err)
 }
